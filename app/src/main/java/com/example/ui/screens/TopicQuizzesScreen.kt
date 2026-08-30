@@ -119,7 +119,7 @@ fun TopicQuizzesScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    listOf(3, 5, totalQuestionsInCategory).distinct().forEach { count ->
+                    listOf(5, 8, totalQuestionsInCategory).distinct().forEach { count ->
                         val isSelected = selectedQuestionCount == count
                         Surface(
                             modifier = Modifier

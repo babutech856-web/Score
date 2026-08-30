@@ -1,8 +1,14 @@
 package com.example.ui.screens
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -238,102 +244,118 @@ fun QuizPlayScreen(
             }
         }
     ) { innerPadding ->
-        LazyColumn(
+        AnimatedContent(
+            targetState = state.currentIndex,
+            transitionSpec = {
+                if (targetState > initialState) {
+                    (slideInHorizontally(animationSpec = tween(280)) { it / 2 } + fadeIn(animationSpec = tween(280)))
+                        .togetherWith(slideOutHorizontally(animationSpec = tween(280)) { -it / 2 } + fadeOut(animationSpec = tween(280)))
+                } else {
+                    (slideInHorizontally(animationSpec = tween(280)) { -it / 2 } + fadeIn(animationSpec = tween(280)))
+                        .togetherWith(slideOutHorizontally(animationSpec = tween(280)) { it / 2 } + fadeOut(animationSpec = tween(280)))
+                }
+            },
+            label = "question_change_anim",
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Category & Difficulty Chips + Bookmark
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+        ) { _ ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Category & Difficulty Chips + Bookmark
+                item {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Surface(
-                            color = currentQuestion.category.accentColor.copy(alpha = 0.15f),
-                            shape = RoundedCornerShape(8.dp)
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = currentQuestion.category.shortName,
-                                color = currentQuestion.category.accentColor,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                            )
+                            Surface(
+                                color = currentQuestion.category.accentColor.copy(alpha = 0.15f),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = currentQuestion.category.shortName,
+                                    color = currentQuestion.category.accentColor,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+
+                            DifficultyBadge(difficulty = currentQuestion.difficulty)
                         }
 
-                        DifficultyBadge(difficulty = currentQuestion.difficulty)
-                    }
-
-                    IconButton(
-                        onClick = onToggleBookmark,
-                        modifier = Modifier.testTag("quiz_bookmark_btn")
-                    ) {
-                        Icon(
-                            imageVector = if (isBookmarked) Icons.Default.Bookmark else Icons.Outlined.BookmarkBorder,
-                            contentDescription = "Bookmark Question",
-                            tint = if (isBookmarked) ForensicsAmber else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        IconButton(
+                            onClick = onToggleBookmark,
+                            modifier = Modifier.testTag("quiz_bookmark_btn")
+                        ) {
+                            Icon(
+                                imageVector = if (isBookmarked) Icons.Default.Bookmark else Icons.Outlined.BookmarkBorder,
+                                contentDescription = "Bookmark Question",
+                                tint = if (isBookmarked) ForensicsAmber else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
-            }
 
-            // Question Text
-            item {
-                Text(
-                    text = currentQuestion.question,
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    lineHeight = 24.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.testTag("question_text")
-                )
-            }
-
-            // Options List
-            item {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    val letters = listOf("A", "B", "C", "D", "E")
-                    currentQuestion.options.forEachIndexed { index, optionText ->
-                        val letter = letters.getOrElse(index) { "${index + 1}" }
-                        val isSelected = selectedOptionIndex == index
-
-                        // Determine reveal state for practice mode
-                        val isCorrectOption: Boolean? = if (hasAnswered && state.mode == QuizMode.PRACTICE) {
-                            index == currentQuestion.correctOptionIndex
-                        } else null
-
-                        OptionItem(
-                            optionLetter = letter,
-                            optionText = optionText,
-                            isSelected = isSelected,
-                            isCorrectOption = isCorrectOption,
-                            isUserSelected = isSelected,
-                            isEnabled = !hasAnswered || state.mode == QuizMode.EXAM,
-                            onClick = { onSelectOption(index) }
-                        )
-                    }
-                }
-            }
-
-            // Explanation Box (In Practice Mode, revealed after answering)
-            if (hasAnswered && state.mode == QuizMode.PRACTICE) {
+                // Question Text
                 item {
-                    AnimatedVisibility(
-                        visible = true,
-                        enter = fadeIn() + slideInVertically(initialOffsetY = { 40 })
+                    Text(
+                        text = currentQuestion.question,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        lineHeight = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.testTag("question_text")
+                    )
+                }
+
+                // Options List
+                item {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        ExplanationBox(question = currentQuestion)
+                        val letters = listOf("A", "B", "C", "D", "E")
+                        currentQuestion.options.forEachIndexed { index, optionText ->
+                            val letter = letters.getOrElse(index) { "${index + 1}" }
+                            val isSelected = selectedOptionIndex == index
+
+                            // Determine reveal state for practice mode
+                            val isCorrectOption: Boolean? = if (hasAnswered && state.mode == QuizMode.PRACTICE) {
+                                index == currentQuestion.correctOptionIndex
+                            } else null
+
+                            OptionItem(
+                                optionLetter = letter,
+                                optionText = optionText,
+                                isSelected = isSelected,
+                                isCorrectOption = isCorrectOption,
+                                isUserSelected = isSelected,
+                                isEnabled = !hasAnswered || state.mode == QuizMode.EXAM,
+                                onClick = { onSelectOption(index) }
+                            )
+                        }
+                    }
+                }
+
+                // Explanation Box (In Practice Mode, revealed after answering)
+                if (hasAnswered && state.mode == QuizMode.PRACTICE) {
+                    item {
+                        AnimatedVisibility(
+                            visible = true,
+                            enter = fadeIn() + slideInVertically(initialOffsetY = { 40 })
+                        ) {
+                            ExplanationBox(question = currentQuestion)
+                        }
                     }
                 }
             }

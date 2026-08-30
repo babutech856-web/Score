@@ -7,7 +7,7 @@ import com.example.data.model.ForensicQuestion
 object ForensicQuestionBank {
 
     val questions: List<ForensicQuestion> = listOf(
-        // ==================== THANATOLOGY & PMI ====================
+        // ==================== 1. THANATOLOGY & POSTMORTEM INTERVAL ====================
         ForensicQuestion(
             id = "than_01",
             category = ForensicCategory.THANATOLOGY,
@@ -104,8 +104,72 @@ object ForensicQuestionBank {
             difficulty = Difficulty.ADVANCED,
             reference = "Knight's Forensic Pathology"
         ),
+        ForensicQuestion(
+            id = "than_07",
+            category = ForensicCategory.THANATOLOGY,
+            question = "Postmortem hypostasis (lividity) becomes fixed and does not blanch upon thumb pressure or shift when the body position is altered after approximately:",
+            options = listOf(
+                "30 minutes to 1 hour",
+                "6 to 12 hours",
+                "24 to 36 hours",
+                "48 to 72 hours"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Hypostasis begins immediately after circulation stops, becoming visible at 1-2 hours, fully developed at 4-6 hours, and fixed between 6-12 hours due to hemoconcentration and extravasation of hemolyzed RBCs into surrounding interstitial tissues.",
+            clinicalPearl = "Fixed lividity at an unexpected site indicates the body was moved 6–12+ hours after death.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "than_08",
+            category = ForensicCategory.THANATOLOGY,
+            question = "According to Casper's Dictum regarding the rate of putrefaction, the ratio of decomposition rate in Air : Water : Earth (burial) is:",
+            options = listOf(
+                "1 : 2 : 8 (1 week in air = 2 weeks in water = 8 weeks in earth)",
+                "8 : 2 : 1 (8 weeks in air = 2 weeks in water = 1 week in earth)",
+                "1 : 1 : 1 (equal decomposition rate)",
+                "1 : 4 : 16"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Casper's Dictum states that a body decomposes twice as fast in air as in water, and eight times as fast in air as buried underground in earth (Ratio of Air : Water : Earth is 1 : 2 : 8).",
+            clinicalPearl = "Casper's Law: 1 week in air = 2 weeks in water = 8 weeks buried in soil.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "than_09",
+            category = ForensicCategory.THANATOLOGY,
+            question = "Tache noire de la sclérotique is an ocular postmortem finding described as:",
+            options = listOf(
+                "Subconjunctival flame hemorrhage secondary to asphyxia",
+                "Brownish-black triangular or oval patches on the sclera where the unclosed eyelids leave the eyeball exposed to air",
+                "Complete opacity of the anterior lens capsule",
+                "Clouding of the cornea occurring within 5 minutes"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Tache noire refers to two brownish or black triangular spots appearing on the exposed sclera (lateral and medial to the cornea) when eyelids remain open after death. It is caused by desiccation and atmospheric deposition of cellular debris and dust on the dried sclera.",
+            clinicalPearl = "Tache noire indicates the eyes were left open postmortem, appearing within 2 to 3 hours in dry conditions.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "than_10",
+            category = ForensicCategory.THANATOLOGY,
+            question = "Postmortem caloricity (a rise in body temperature for the first 1–2 hours after somatic death) is characteristically seen in which of the following conditions?",
+            options = listOf(
+                "Congestive cardiac failure",
+                "Tetanus, Strychnine poisoning, or Pontine hemorrhage",
+                "Severe hemorrhagic shock",
+                "Barbiturate overdose"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Postmortem caloricity occurs when heat production continues or thermoregulatory failure produces extreme hyperpyrexia immediately before death without circulatory dissipation. Classic causes include Tetanus, Strychnine convulsions, Pontine hemorrhage, Heat stroke, and Septicemia.",
+            clinicalPearl = "Postmortem caloricity: Body temperature rises instead of falling initially in convulsive states, pontine stroke, and heat stroke.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Knight's Forensic Pathology"
+        ),
 
-        // ==================== TRAUMATOLOGY & WOUNDS ====================
+        // ==================== 2. TRAUMATOLOGY & MECHANICAL INJURIES ====================
         ForensicQuestion(
             id = "trauma_01",
             category = ForensicCategory.TRAUMATOLOGY,
@@ -186,8 +250,88 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Knight's Forensic Pathology"
         ),
+        ForensicQuestion(
+            id = "trauma_06",
+            category = ForensicCategory.TRAUMATOLOGY,
+            question = "The color changes in a contusion (bruise) over time reflect enzymatic degradation of hemoglobin. What is the correct chronological sequence?",
+            options = listOf(
+                "Red -> Blue/Black -> Brown -> Green -> Yellow -> Normal",
+                "Yellow -> Green -> Red -> Blue -> Normal",
+                "Blue -> Yellow -> Green -> Red -> Normal",
+                "Green -> Brown -> Blue -> Red -> Normal"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Bruise color chronology: Fresh (Red/Dark Red - oxyhemoglobin), 1-3 days (Blue/Black/Purple - deoxygenated Hb), 4-5 days (Brown - hemosiderin), 5-7 days (Green - biliverdin), 7-10 days (Yellow - bilirubin), 2 weeks (Normal skin restored).",
+            clinicalPearl = "Mnemonic: 'Red Boy Buys Green Bananas' — Red (fresh) -> Blue/Black -> Brown -> Green -> Yellow -> Normal.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "trauma_07",
+            category = ForensicCategory.TRAUMATOLOGY,
+            question = "A heavy sharp cutting weapon with significant mass (such as an axe, machete, or meat cleaver) typically produces which class of mechanical injury?",
+            options = listOf(
+                "Punctate puncture wound",
+                "Chop wound (incised-laceration with bony notching)",
+                "Pure friction graze abrasion",
+                "Decollement avulsion"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Chop wounds are inflicted by heavy weapons with a cutting edge (axes, meat cleavers, swords, boat propellers). They combine sharp incised features (clean-cut skin edges) with massive blunt trauma, frequently shattering or grooving underlying bones.",
+            clinicalPearl = "Chop wounds feature linear incisions with underlying bone cleaving, crushing, and marginal contusions.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
+        ForensicQuestion(
+            id = "trauma_08",
+            category = ForensicCategory.TRAUMATOLOGY,
+            question = "In stab wounds, the shape and dimensions of the skin opening in relation to the weapon's blade geometry are heavily influenced by:",
+            options = listOf(
+                "Langer's cleavage lines of collagen in the dermis",
+                "The patient's blood pressure at time of injury",
+                "Subcutaneous capillary density",
+                "Epidermal melanin content"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Langer's lines represent the natural orientation of collagen fibers in the dermis. A stab wound parallel to Langer's lines appears narrow and slit-like; a stab perpendicular to Langer's lines is pulled widely agape and elliptical, appearing broader than the weapon.",
+            clinicalPearl = "Langer's lines: Parallel stab = slit-like; Transverse stab = gaping elliptical defect.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "trauma_09",
+            category = ForensicCategory.TRAUMATOLOGY,
+            question = "A pedestrian struck by a vehicle primary bumper typically exhibits a wedge-shaped fracture of the tibia/fibula pointing in the direction of vehicle travel. This is known as:",
+            options = listOf(
+                "Messerer's fracture",
+                "Colles' fracture",
+                "Pott's fracture",
+                "Jefferson's fracture"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Messerer's fracture is a triangular wedge-shaped fracture of long bones (typically tibia) caused by direct bumper impact. The base of the wedge corresponds to the side of impact, and the apex points in the direction the vehicle was traveling.",
+            clinicalPearl = "Messerer's fracture: Apex points in direction of vehicular movement; Base indicates the point of bumper impact.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "trauma_10",
+            category = ForensicCategory.TRAUMATOLOGY,
+            question = "Which type of subdural hematoma is typically caused by tearing of bridging cortical veins during rotational or acceleration-deceleration head trauma?",
+            options = listOf(
+                "Epidural (extradural) hematoma from middle meningeal artery rupture",
+                "Acute subdural hematoma (crescentic shape on CT)",
+                "Subarachnoid hemorrhage from Berry aneurysm",
+                "Intraventricular choroid plexus hematoma"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Subdural hematomas result from tearing of parasagittal bridging cortical veins crossing the subdural space to the superior sagittal sinus due to angular/rotational acceleration. They form a crescent-shaped hematoma that can cross cranial suture lines.",
+            clinicalPearl = "Epidural = Middle meningeal artery, biconvex (lens), lucid interval. Subdural = Bridging veins, crescent-shaped, crosses suture lines.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
 
-        // ==================== FORENSIC BALLISTICS ====================
+        // ==================== 3. FORENSIC BALLISTICS & FIREARMS ====================
         ForensicQuestion(
             id = "ball_01",
             category = ForensicCategory.BALLISTICS,
@@ -252,8 +396,72 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Parikh's Medical Jurisprudence"
         ),
+        ForensicQuestion(
+            id = "ball_05",
+            category = ForensicCategory.BALLISTICS,
+            question = "When two bullets are fired sequentially through the same gun barrel and exit together, producing a single combined or adjacent atypical entrance wound, this is called:",
+            options = listOf(
+                "Ricochet bullet",
+                "Tandem (piggyback) bullets",
+                "Dumdum bullet phenomenon",
+                "Frangible round effect"
+            ),
+            correctOptionIndex = 1,
+            explanation = "A tandem (or piggyback) bullet occurs when a primary cartridge fails to clear the barrel due to low powder charge (squib load), and a subsequent round is fired behind it, driving both projectiles out of the muzzle simultaneously.",
+            clinicalPearl = "Tandem bullets: Two bullets fired simultaneously through one discharge, yielding single or overlapping complex entrance wounds.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Knight's Forensic Pathology"
+        ),
+        ForensicQuestion(
+            id = "ball_06",
+            category = ForensicCategory.BALLISTICS,
+            question = "In shotgun ballistics, the narrowing of the muzzle bore to control the spread and dispersion of lead pellets over distance is called:",
+            options = listOf(
+                "Rifling groove twist",
+                "Choke",
+                "Caliber gauge",
+                "Chambering angle"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Choke refers to the constriction of the shotgun barrel at the muzzle end (Full choke, Modified, Cylinder bore) to control the dispersion pattern of the shot charge, increasing effective range and pellet density.",
+            clinicalPearl = "Full choke keeps the pellet pattern tight up to 30–40 yards; Cylinder bore disperses rapidly.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Ballistics"
+        ),
+        ForensicQuestion(
+            id = "ball_07",
+            category = ForensicCategory.BALLISTICS,
+            question = "Which chemical test is used in forensic ballistics to detect copper and lead residue on clothing or target surfaces around bullet holes?",
+            options = listOf(
+                "Modified Griess test and Sodium Rhodizonate test",
+                "Takayama crystal test",
+                "Kastle-Meyer phenolphthalein test",
+                "Luminol chemiluminescence"
+            ),
+            correctOptionIndex = 0,
+            explanation = "The Modified Griess test detects nitrites (burnt gunpowder residue), while the Sodium Rhodizonate test identifies lead and barium primer residues on fabrics, confirming range of fire and entrance hole margins.",
+            clinicalPearl = "Griess test = Nitrites (orange spots); Sodium Rhodizonate test = Lead/Barium (pink-violet reaction).",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "ball_08",
+            category = ForensicCategory.BALLISTICS,
+            question = "In rifled firearms, the helical grooves cut into the interior of the barrel impart which dynamic physical property to the traveling bullet?",
+            options = listOf(
+                "Gyroscopic rotational stability around its longitudinal axis",
+                "Complete elimination of projectile air resistance",
+                "Centrifugal fragmentation upon tissue impact",
+                "Thermal cooling of the casing"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Rifling (lands and grooves) imparts a rapid spin to the bullet as it travels down the barrel. This gyroscopic spin stabilizes the projectile in flight, preventing tumbling and yawing in air and ensuring accuracy.",
+            clinicalPearl = "Lands & Grooves impart spin; they leave unique striated micro-markings on the bullet for ballistic toolmark comparison.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
 
-        // ==================== ASPHYXIAL DEATHS ====================
+        // ==================== 4. ASPHYXIAL DEATHS & HYPOXIA ====================
         ForensicQuestion(
             id = "asph_01",
             category = ForensicCategory.ASPHYXIA,
@@ -318,8 +526,72 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Reddy's Essentials of Forensic Medicine"
         ),
+        ForensicQuestion(
+            id = "asph_05",
+            category = ForensicCategory.ASPHYXIA,
+            question = "Manual strangulation (throttling) is most definitively characterized by which external injury pattern on the neck?",
+            options = listOf(
+                "A continuous horizontal grooved furrow with parchmentized parchment base",
+                "Semilunar / crescentic fingernail abrasions and fingertip contusions",
+                "Deep symmetrical charring of the anterior platysma",
+                "Linear scratch marks running vertically across the sternum"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Throttling (manual strangulation using hands) produces discrete crescentic (semilunar) abrasions caused by the assailant's fingernails digging into the victim's neck, alongside rounded/oval fingertip contusions.",
+            clinicalPearl = "Crescentic fingernail abrasions + extensive strap muscle contusions + thyroid cornua fractures = cardinal throttling triad.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
+        ForensicQuestion(
+            id = "asph_06",
+            category = ForensicCategory.ASPHYXIA,
+            question = "A sudden fatal collapse in an intoxicated diner who unexpectedly chokes on a large unchewed bolus of meat lodging at the laryngeal inlet, with absence of cyanosis, is termed:",
+            options = listOf(
+                "Burking asphyxia",
+                "Café coronary",
+                "Postural asphyxia",
+                "Traumatic asphyxia of Perthes"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Café coronary refers to fatal choking where food impaction at the hypopharynx/larynx stimulates the superior laryngeal nerve, triggering immediate vagal cardiac arrest (reflex neurogenic shock) without typical signs of prolonged asphyxial struggle.",
+            clinicalPearl = "Café coronary simulates acute myocardial infarction in restaurants; immediate Heimlich maneuver or laryngoscopic extraction is lifesaving.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "asph_07",
+            category = ForensicCategory.ASPHYXIA,
+            question = "The method of homicidal asphyxia combining chest fixation (kneeling on the thorax) with simultaneous occlusion of the nose and mouth using hands is historically known as:",
+            options = listOf(
+                "Garrotting",
+                "Burking",
+                "Bansdola",
+                "Mugging"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Burking (originated by Burke and Hare in 1828) combines traumatic/positional asphyxia (sitting/kneeling on victim's chest to prevent respiratory excursion) with smothering (clamping hand over nose and mouth), leaving minimal external signs of injury.",
+            clinicalPearl = "Burking = Traumatic chest compression + Smothering.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "asph_08",
+            category = ForensicCategory.ASPHYXIA,
+            question = "In dry drowning (representing ~10-15% of all submersion fatalities), the primary mechanism causing fatal hypoxia is:",
+            options = listOf(
+                "Immediate laryngeal spasm triggered by initial water contact with the upper airway",
+                "Massive systemic hemodilution and hyperkalemia from freshwater absorption",
+                "Surfactant washout and alveolar collapse",
+                "Severe pulmonary edema with hyaline membrane formation"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Dry drowning occurs when cold water entering the nasopharynx/larynx triggers severe, sustained laryngospasm via vagal reflex. The glottis seals completely, preventing water entry into the lungs but causing asphyxia and hypoxic cardiac arrest without fluid aspiration.",
+            clinicalPearl = "Dry drowning: Lungs are dry, no emphysema aquosum, no diatoms in bone marrow; death is caused by intense reflex laryngospasm.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Knight's Forensic Pathology"
+        ),
 
-        // ==================== FORENSIC TOXICOLOGY ====================
+        // ==================== 5. FORENSIC TOXICOLOGY & POISONS ====================
         ForensicQuestion(
             id = "tox_01",
             category = ForensicCategory.TOXICOLOGY,
@@ -400,8 +672,88 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Knight's Forensic Pathology"
         ),
+        ForensicQuestion(
+            id = "tox_06",
+            category = ForensicCategory.TOXICOLOGY,
+            question = "Which poison is known as 'Inheritance Powder' and historically favored for homicidal poisoning because it is white, tasteless, odorless, and resembles natural gastroenteritis?",
+            options = listOf(
+                "Arsenic trioxide (Sankhya)",
+                "Potassium cyanide",
+                "Thallium acetate",
+                "Mercury perchloride"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Arsenic trioxide (As2O3, 'white arsenic', 'Poudre de succession') was historically termed inheritance powder because it is tasteless, odorless, dissolves in warm beverages, and its acute symptoms (vomiting, rice-water stools, cramping) closely mimic cholera or acute gastroenteritis.",
+            clinicalPearl = "Arsenic preserves bodies postmortem (retards putrefaction) and concentrates in keratinized tissues (hair and nails).",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Toxicology"
+        ),
+        ForensicQuestion(
+            id = "tox_07",
+            category = ForensicCategory.TOXICOLOGY,
+            question = "A patient ingests grain preservative tablets (Celphos / Aluminum phosphide). On contact with gastric acid and moisture, it liberates which lethal gas that produces profound circulatory collapse and cardiogenic shock?",
+            options = listOf(
+                "Phosphine (PH3)",
+                "Phosgene (COCl2)",
+                "Mustard gas",
+                "Hydrogen sulfide (H2S)"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Aluminum phosphide reacts with moisture/gastric HCl to release Phosphine (PH3) gas. Phosphine is a potent protoplasmic poison that inhibits cytochrome c oxidase and causes lipid peroxidation, resulting in fatal cardiogenic shock, arrhythmias, and metabolic acidosis. Silver nitrate paper turns black on exposure.",
+            clinicalPearl = "Aluminum phosphide (Celphos): Garlicky fish odor, phosphine gas, turns silver nitrate paper black; no specific antidote, mortality >70%.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "tox_08",
+            category = ForensicCategory.TOXICOLOGY,
+            question = "Strychnine poisoning (derived from seeds of Strychnos nux-vomica) characteristically causes violent convulsions where consciousness is preserved throughout. The cardinal physical sign with arched back contracture is termed:",
+            options = listOf(
+                "Opisthotonos with Risus sardonicus",
+                "Emprosthotonos with ptosis",
+                "Decerebrate flaccidity",
+                "Chvostek's facial spasm"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Strychnine antagonizes glycine receptors on spinal cord Renshaw cells, causing unrestrained motor neuron firing. This produces severe generalized tonic convulsions, hyperextended arched back (opisthotonos), and fixed grimace from facial muscle spasm (risus sardonicus), with full consciousness throughout.",
+            clinicalPearl = "Strychnine: Blocks glycine inhibitory receptors -> Opisthotonos + Risus sardonicus + Preserved consciousness (differentiates from epilepsy).",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Toxicology"
+        ),
+        ForensicQuestion(
+            id = "tox_09",
+            category = ForensicCategory.TOXICOLOGY,
+            question = "In acute Paracetamol (Acetaminophen) overdose, fatal hepatic centrilobular necrosis is mediated by the reactive toxic metabolite NAPQI. The definitive antidote to replenish glutathione stores is:",
+            options = listOf(
+                "N-Acetylcysteine (NAC)",
+                "Desferrioxamine",
+                "Methylene blue",
+                "Calcium disodium EDTA"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Paracetamol overdose depletes hepatic glutathione, causing accumulation of the toxic intermediate N-acetyl-p-benzoquinone imine (NAPQI). N-Acetylcysteine (NAC) acts as a glutathione precursor and substitute, neutralizing NAPQI and preventing fatal centrilobular hepatic necrosis.",
+            clinicalPearl = "NAC is most effective when administered within 8 hours of ingestion (guided by Rumack-Matthew nomogram).",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "tox_10",
+            category = ForensicCategory.TOXICOLOGY,
+            question = "Methanol (wood alcohol) ingestion causes severe metabolic acidosis and permanent optic disc atrophy/blindness ('snowstorm vision'). This neuro-ocular toxicity is mediated by:",
+            options = listOf(
+                "Formic acid (Formate)",
+                "Oxalic acid",
+                "Acetaldehyde",
+                "Lactic acid"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Methanol is metabolized by alcohol dehydrogenase to formaldehyde, which is rapidly converted by aldehyde dehydrogenase to Formic acid (Formate). Formic acid inhibits cytochrome oxidase, causing retinal cell damage, optic disc edema, blindness, and high anion gap metabolic acidosis. Treatment: Fomepizole or Ethanol.",
+            clinicalPearl = "Methanol toxicity: Formic acid mediates optic nerve atrophy ('snowstorm vision') and basal ganglia / putaminal necrosis.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
 
-        // ==================== PERSONAL IDENTIFICATION & ANTHROPOLOGY ====================
+        // ==================== 6. PERSONAL IDENTIFICATION & ANTHROPOLOGY ====================
         ForensicQuestion(
             id = "ident_01",
             category = ForensicCategory.IDENTIFICATION,
@@ -466,8 +818,72 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Reddy's Essentials of Forensic Medicine"
         ),
+        ForensicQuestion(
+            id = "ident_05",
+            category = ForensicCategory.IDENTIFICATION,
+            question = "Poroscopy, introduced by Edmond Locard, evaluates which anatomical feature for personal identification?",
+            options = listOf(
+                "Size, shape, and frequency of sweat pores along friction ridges",
+                "Microscopic porosity of cortical bone osteons",
+                "Number of enamel prism pits on molar crowns",
+                "Dermal papillae depth on the palms"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Poroscopy (Locard, 1912) is the comparative study of the microscopic configurations, size, shape, and relative spatial positions of sweat gland pores opening on the epidermal friction ridges. 20–40 matching pores confirm positive identification.",
+            clinicalPearl = "Poroscopy is especially valuable when only tiny, fragmented partial latent fingerprints are recovered from crime scenes.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "ident_06",
+            category = ForensicCategory.IDENTIFICATION,
+            question = "In forensic osteology, the fusion of which cranial suture begins around 30 years and is completely obliterated by approximately 50–60 years of age?",
+            options = listOf(
+                "Coronal and Sagittal sutures",
+                "Frontal metopic suture",
+                "Spheno-occipital synchondrosis",
+                "Squamosal suture"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Sagittal suture begins closure endocranially around 25-30 years and completes by ~35-40 years. Coronal suture begins around 30-35 years and completes by ~45-50 years. Lambdoid suture begins around 30-35 years and completes by ~50-55 years.",
+            clinicalPearl = "Spheno-occipital synchondrosis closes at 18–25 years (key marker for adulthood); Cranial vault sutures close endocranially before ectocranially.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "ident_07",
+            category = ForensicCategory.IDENTIFICATION,
+            question = "The standard methodology for calculating living stature from long bone measurements (such as the femur or humerus) uses:",
+            options = listOf(
+                "Trotter and Gleser's regression formulae",
+                "Gustafson's six point scale",
+                "Glaister's cooling formula",
+                "Rule of Nines"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Trotter and Gleser regression formulae are the international standard anthropometric tables used to estimate living stature from the maximum physiological length of individual long bones (femur, tibia, humerus, radius).",
+            clinicalPearl = "Femur length represents approximately 27% of total standing body height.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Knight's Forensic Pathology"
+        ),
+        ForensicQuestion(
+            id = "ident_08",
+            category = ForensicCategory.IDENTIFICATION,
+            question = "In modern forensic DNA profiling, the international standard system utilizes:",
+            options = listOf(
+                "Short Tandem Repeats (STR) analysis across CODIS core loci",
+                "ABO blood typing agglutination",
+                "Hemoglobin electrophoresis",
+                "Serum haptoglobin phenotyping"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Modern forensic DNA identification relies on Short Tandem Repeats (STR) analyzed via PCR and capillary electrophoresis across 20 CODIS core loci plus Amelogenin (for sex determination), achieving random match probabilities exceeding 1 in a billion.",
+            clinicalPearl = "Amelogenin gene: Single band (X) = Female; Two bands (X and Y) = Male.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
 
-        // ==================== MEDICAL JURISPRUDENCE & LAW ====================
+        // ==================== 7. MEDICAL JURISPRUDENCE & LEGAL PROCEDURE ====================
         ForensicQuestion(
             id = "jur_01",
             category = ForensicCategory.JURISPRUDENCE,
@@ -516,8 +932,88 @@ object ForensicQuestionBank {
             difficulty = Difficulty.STANDARD,
             reference = "Parikh's Medical Jurisprudence"
         ),
+        ForensicQuestion(
+            id = "jur_04",
+            category = ForensicCategory.JURISPRUDENCE,
+            question = "A document issued by a competent court compelling the attendance of a medical witness to give evidence or produce documents under legal penalty is known as a:",
+            options = listOf(
+                "Subpoena (Summons)",
+                "Affidavit",
+                "Inquest warrant",
+                "Bail bond"
+            ),
+            correctOptionIndex = 0,
+            explanation = "A Subpoena (Summons) is a formal writ issued by court authority commanding the attendance of a person under penalty for failure to attend. A subpoena duces tecum specifically demands the production of documents/medical records.",
+            clinicalPearl = "Criminal court subpoena takes precedence over civil court summons if dates clash.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "jur_05",
+            category = ForensicCategory.JURISPRUDENCE,
+            question = "Which legal rule forms the foundation for determining criminal responsibility when a defendant claims defense by reason of insanity?",
+            options = listOf(
+                "McNaughten (M'Naghten) Rules",
+                "Miranda Rights",
+                "Tarasoff Doctrine",
+                "Roe vs Wade principle"
+            ),
+            correctOptionIndex = 0,
+            explanation = "The McNaughten Rules (1843) state that to establish defense on the ground of insanity, it must be proved that at the time of committing the act, the accused was laboring under such a defect of reason from disease of the mind as not to know the nature and quality of the act, or that what they were doing was wrong.",
+            clinicalPearl = "McNaughten Rule: Legal insanity requires inability to know the nature of the act OR that the act was contrary to law.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "jur_06",
+            category = ForensicCategory.JURISPRUDENCE,
+            question = "Under the doctrine of 'Privileged Communication', a physician is legally justified or obligated to disclose patient confidential medical information without consent in which scenario?",
+            options = listOf(
+                "When requested informally by an insurance agent over the telephone",
+                "To protect public health or innocent third parties from serious harm (e.g. reporting notifiable infectious diseases or impending violence)",
+                "To the patient's employer seeking disciplinary grounds",
+                "To commercial medical device companies"
+            ),
+            correctOptionIndex = 1,
+            explanation = "Privileged communication permits breach of professional secrecy when there is an overriding statutory or public duty, such as reporting notifiable communicable diseases, suspected child/elder abuse, gunshot wounds, or imminent harm to third parties (Tarasoff rule).",
+            clinicalPearl = "Professional Secrecy is the rule; Privileged Communication is the legally protected exception when public welfare overrides individual privacy.",
+            difficulty = Difficulty.ADVANCED,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
+        ForensicQuestion(
+            id = "jur_07",
+            category = ForensicCategory.JURISPRUDENCE,
+            question = "In court testimony, a witness who unexpectedly displays bias against the party who called them and refuses to state the truth is declared:",
+            options = listOf(
+                "A Hostile (Adverse) witness",
+                "An Expert amicus curiae",
+                "A Perjured appellant",
+                "A Retracted witness"
+            ),
+            correctOptionIndex = 0,
+            explanation = "A hostile witness is one who demonstrates an adverse interest or hostility towards the party calling them and refuses to tell the truth. With the court's permission, the party calling the witness can cross-examine and ask leading questions.",
+            clinicalPearl = "Cross-examination by one's own counsel is permitted only after the judge formally declares the witness 'Hostile'.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Parikh's Medical Jurisprudence"
+        ),
+        ForensicQuestion(
+            id = "jur_08",
+            category = ForensicCategory.JURISPRUDENCE,
+            question = "The doctrine of 'Loco Parentis' in medical emergency consent applies when:",
+            options = listOf(
+                "A minor requires life-saving emergency medical treatment and parents are unavailable, allowing person in temporary custody (teacher/guardian) to consent",
+                "An adult patient refuses blood transfusion on religious grounds",
+                "A physician delegates surgical decisions to a resident doctor",
+                "The state takes custody of an estate"
+            ),
+            correctOptionIndex = 0,
+            explanation = "In loco parentis ('in the place of a parent') allows an adult having lawful temporary custody of a minor (such as a school teacher or camp warden) to provide legal consent for emergency medical intervention when biological parents cannot be reached in time.",
+            clinicalPearl = "In emergency life-threatening situations where no guardian is reachable, the doctrine of necessity permits immediate treatment without prior consent.",
+            difficulty = Difficulty.STANDARD,
+            reference = "Reddy's Essentials of Forensic Medicine"
+        ),
 
-        // ==================== CLINICAL & AUTOPSY VIGNETTES ====================
+        // ==================== 8. AUTOPSY & CLINICAL VIGNETTES ====================
         ForensicQuestion(
             id = "vig_01",
             category = ForensicCategory.AUTOPSY_CASES,
@@ -599,52 +1095,52 @@ object ForensicQuestionBank {
             reference = "Parikh's Medical Jurisprudence"
         ),
         ForensicQuestion(
-            id = "than_07",
-            category = ForensicCategory.THANATOLOGY,
-            question = "Postmortem hypostasis (lividity) becomes fixed and does not blanch upon thumb pressure or shift when the body position is altered after approximately:",
+            id = "vig_06",
+            category = ForensicCategory.AUTOPSY_CASES,
+            question = "A young bodybuilder collapsed during summer training. Autopsy reveals core rectal temperature of 42.5°C, diffuse petechiae, acute tubular necrosis, and extensive rhabdomyolysis without anatomical cardiovascular occlusion. What is the medicolegal diagnosis?",
             options = listOf(
-                "30 minutes to 1 hour",
-                "6 to 12 hours",
-                "24 to 36 hours",
-                "48 to 72 hours"
+                "Exertional Heat Stroke",
+                "Pontine hemorrhage stroke",
+                "Cyanide intoxication",
+                "Anaphylactic shock"
             ),
-            correctOptionIndex = 1,
-            explanation = "Hypostasis begins immediately after circulation stops, becoming visible at 1-2 hours, fully developed at 4-6 hours, and fixed between 6-12 hours due to hemoconcentration and extravasation of hemolyzed RBCs into surrounding interstitial tissues.",
-            clinicalPearl = "Fixed lividity at an unexpected site indicates the body was moved 6–12+ hours after death.",
-            difficulty = Difficulty.STANDARD,
+            correctOptionIndex = 0,
+            explanation = "Exertional heat stroke results from failure of thermoregulation under heavy exertion in hot humid conditions, characterized by hyperpyrexia (>40°C), encephalopathy, rhabdomyolysis (elevated myoglobin/CPK), and multiorgan failure.",
+            clinicalPearl = "Heat stroke vs Heat exhaustion: Heat stroke features hyperthermia >40°C + central nervous system dysfunction + anhidrosis/collapse.",
+            difficulty = Difficulty.VIGNETTE,
+            reference = "Knight's Forensic Pathology"
+        ),
+        ForensicQuestion(
+            id = "vig_07",
+            category = ForensicCategory.AUTOPSY_CASES,
+            question = "A family was discovered deceased in an unventilated bathroom with an active LPG gas geyser. Autopsy of all victims shows bright cherry-red postmortem lividity, pinkish viscera, and bilateral symmetric necrosis of the globus pallidus in the basal ganglia. What was the lethal mechanism?",
+            options = listOf(
+                "Carbon Monoxide (CO) poisoning",
+                "Hydrogen Cyanide gas inhalation",
+                "Methane asphyxiation",
+                "Phosgene inhalation"
+            ),
+            correctOptionIndex = 0,
+            explanation = "Incomplete combustion of LPG gas in unventilated bathrooms releases lethal carbon monoxide. CO binds hemoglobin forming carboxyhemoglobin (causing cherry-red hypostasis) and directly causes selective bilateral necrosis of the globus pallidus in the brain.",
+            clinicalPearl = "Gas geyser deaths + Cherry-red lividity + Globus pallidus necrosis = Classic Carbon Monoxide poisoning.",
+            difficulty = Difficulty.VIGNETTE,
             reference = "Reddy's Essentials of Forensic Medicine"
         ),
         ForensicQuestion(
-            id = "tox_06",
-            category = ForensicCategory.TOXICOLOGY,
-            question = "Which poison is known as 'Inheritance Powder' and historically favored for homicidal poisoning because it is white, tasteless, odorless, and resembles natural gastroenteritis?",
+            id = "vig_08",
+            category = ForensicCategory.AUTOPSY_CASES,
+            question = "Autopsy on a victim recovered from an industrial explosion shows bilateral tympanic membrane rupture, pulmonary blast lung with 'butterfly' alveolar hemorrhage pattern, and superficial shrapnel lacerations. The primary blast injury is represented by:",
             options = listOf(
-                "Arsenic trioxide (Sankhya)",
-                "Potassium cyanide",
-                "Thallium acetate",
-                "Mercury perchloride"
+                "Tympanic membrane rupture and blast lung",
+                "Secondary flying projectile shrapnel wounds",
+                "Tertiary bodily impact against wall",
+                "Quaternary toxic fume inhalation"
             ),
             correctOptionIndex = 0,
-            explanation = "Arsenic trioxide (As2O3, 'white arsenic', 'Poudre de succession') was historically termed inheritance powder because it is tasteless, odorless, dissolves in warm beverages, and its acute symptoms (vomiting, rice-water stools, cramping) closely mimic cholera or acute gastroenteritis.",
-            clinicalPearl = "Arsenic preserves bodies postmortem (retards putrefaction) and concentrates in keratinized tissues (hair and nails).",
-            difficulty = Difficulty.STANDARD,
-            reference = "Parikh's Toxicology"
-        ),
-        ForensicQuestion(
-            id = "trauma_06",
-            category = ForensicCategory.TRAUMATOLOGY,
-            question = "The color changes in a contusion (bruise) over time reflect enzymatic degradation of hemoglobin. What is the correct chronological sequence?",
-            options = listOf(
-                "Red -> Blue/Black -> Brown -> Green -> Yellow -> Normal",
-                "Yellow -> Green -> Red -> Blue -> Normal",
-                "Blue -> Yellow -> Green -> Red -> Normal",
-                "Green -> Brown -> Blue -> Red -> Normal"
-            ),
-            correctOptionIndex = 0,
-            explanation = "Bruise color chronology: Fresh (Red/Dark Red - oxyhemoglobin), 1-3 days (Blue/Black/Purple - deoxygenated Hb), 4-5 days (Brown - hemosiderin), 5-7 days (Green - biliverdin), 7-10 days (Yellow - bilirubin), 2 weeks (Normal skin restored).",
-            clinicalPearl = "Mnemonic: 'Red Boy Buys Green Bananas' — Red (fresh) -> Blue/Black -> Brown -> Green -> Yellow -> Normal.",
-            difficulty = Difficulty.STANDARD,
-            reference = "Reddy's Essentials of Forensic Medicine"
+            explanation = "Primary blast injuries are caused by the direct high-pressure shockwave passing through air-filled organs, predominantly rupturing the tympanic membranes (most sensitive) and causing pulmonary alveolar blast contusions ('blast lung'). Secondary injuries are shrapnel; tertiary are body displacement; quaternary are burns/toxic gases.",
+            clinicalPearl = "Tympanic membrane rupture is the most sensitive anatomical marker of blast overpressure exposure.",
+            difficulty = Difficulty.VIGNETTE,
+            reference = "Knight's Forensic Pathology"
         )
     )
 
