@@ -1,0 +1,7 @@
+{
+  "name": "Forensic Medicine Quiz",
+  "description": "Daily quizzes, clinical vignettes, and study questions covering forensic medicine, toxicology, thanatology, ballistics, and medical jurisprudence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
