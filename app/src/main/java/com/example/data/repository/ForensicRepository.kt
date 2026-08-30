@@ -4,9 +4,11 @@ import com.example.data.datasource.ForensicFlashcardsBank
 import com.example.data.datasource.ForensicQuestionBank
 import com.example.data.db.AppDatabase
 import com.example.data.db.BookmarkedQuestionEntity
+import com.example.data.db.CustomQuestionEntity
 import com.example.data.db.QuestionAttemptEntity
 import com.example.data.db.QuizAttemptEntity
 import com.example.data.db.UserStatsEntity
+import com.example.data.db.toCustomEntity
 import com.example.data.model.Difficulty
 import com.example.data.model.ForensicCategory
 import com.example.data.model.ForensicFlashcard
@@ -27,25 +29,69 @@ class ForensicRepository(private val database: AppDatabase) {
         return sdf.format(Date())
     }
 
-    fun getDailyQuestions(dateString: String = getTodayDateString()): List<ForensicQuestion> {
-        return ForensicQuestionBank.getDailyQuizQuestions(dateString)
+    // Combine static + custom questions
+    fun getAllCustomQuestionsFlow(): Flow<List<CustomQuestionEntity>> = dao.getAllCustomQuestions()
+
+    suspend fun getAllQuestions(): List<ForensicQuestion> {
+        val custom = dao.getAllCustomQuestionsOnce().map { it.toForensicQuestion() }
+        return ForensicQuestionBank.staticQuestions + custom
     }
 
-    fun getAllQuestions(): List<ForensicQuestion> = ForensicQuestionBank.questions
+    fun getAllStaticQuestions(): List<ForensicQuestion> = ForensicQuestionBank.staticQuestions
 
-    fun getQuestionsByCategory(category: ForensicCategory): List<ForensicQuestion> {
-        return ForensicQuestionBank.getQuestionsByCategory(category)
+    suspend fun getDailyQuestions(dateString: String = getTodayDateString()): List<ForensicQuestion> {
+        val all = getAllQuestions()
+        val shuffled = all.sortedBy { (it.id + dateString).hashCode() }
+        
+        val selected = mutableListOf<ForensicQuestion>()
+        val categoriesSeen = mutableSetOf<ForensicCategory>()
+
+        for (q in shuffled) {
+            if (q.category !in categoriesSeen) {
+                selected.add(q)
+                categoriesSeen.add(q.category)
+                if (selected.size == 5) break
+            }
+        }
+
+        if (selected.size < 5) {
+            for (q in shuffled) {
+                if (q !in selected) {
+                    selected.add(q)
+                    if (selected.size == 5) break
+                }
+            }
+        }
+        return selected
     }
 
-    fun getQuestionsByDifficulty(difficulty: Difficulty): List<ForensicQuestion> {
-        return ForensicQuestionBank.getQuestionsByDifficulty(difficulty)
+    suspend fun getQuestionsByCategory(category: ForensicCategory): List<ForensicQuestion> {
+        return getAllQuestions().filter { it.category == category }
     }
 
-    fun getQuestionById(id: String): ForensicQuestion? {
-        return ForensicQuestionBank.questions.find { it.id == id }
+    suspend fun getQuestionsByDifficulty(difficulty: Difficulty): List<ForensicQuestion> {
+        return getAllQuestions().filter { it.difficulty == difficulty }
+    }
+
+    suspend fun getQuestionById(id: String): ForensicQuestion? {
+        return getAllQuestions().find { it.id == id }
     }
 
     fun getFlashcards(): List<ForensicFlashcard> = ForensicFlashcardsBank.flashcards
+
+    // Custom questions management
+    suspend fun insertCustomQuestions(questions: List<ForensicQuestion>) {
+        val entities = questions.map { it.toCustomEntity() }
+        dao.insertCustomQuestions(entities)
+    }
+
+    suspend fun deleteCustomQuestion(questionId: String) {
+        dao.deleteCustomQuestion(questionId)
+    }
+
+    suspend fun deleteAllCustomQuestions() {
+        dao.deleteAllCustomQuestions()
+    }
 
     fun observeDailyAttemptForToday(): Flow<QuizAttemptEntity?> {
         return dao.observeDailyAttemptForDate(getTodayDateString())
@@ -61,8 +107,9 @@ class ForensicRepository(private val database: AppDatabase) {
 
     fun getIncorrectQuestions(): Flow<List<ForensicQuestion>> {
         return dao.getIncorrectQuestionAttempts().map { attempts ->
+            val all = getAllQuestions()
             attempts.mapNotNull { attempt ->
-                ForensicQuestionBank.questions.find { it.id == attempt.questionId }
+                all.find { it.id == attempt.questionId }
             }
         }
     }
@@ -87,11 +134,10 @@ class ForensicRepository(private val database: AppDatabase) {
         totalQuestions: Int,
         correctAnswers: Int,
         timeTakenSeconds: Int,
-        questionResults: Map<String, Pair<Int, Boolean>> // questionId -> (selectedOption, isCorrect)
+        questionResults: Map<String, Pair<Int, Boolean>>
     ): Long {
         val todayStr = getTodayDateString()
 
-        // 1. Insert quiz attempt
         val attemptId = dao.insertAttempt(
             QuizAttemptEntity(
                 quizTitle = quizTitle,
@@ -104,7 +150,6 @@ class ForensicRepository(private val database: AppDatabase) {
             )
         )
 
-        // 2. Update question attempt stats
         questionResults.forEach { (qId, result) ->
             val (selectedOption, isCorrect) = result
             val existing = dao.getQuestionAttempt(qId)
@@ -127,15 +172,14 @@ class ForensicRepository(private val database: AppDatabase) {
             dao.insertOrUpdateQuestionAttempt(updated)
         }
 
-        // 3. Update User Stats & Streak
         val currentStats = dao.getUserStatsOnce() ?: UserStatsEntity()
         val yesterdayStr = getYesterdayDateString()
 
         val newStreak = when {
-            currentStats.lastCompletedDate == todayStr -> currentStats.currentStreak // Already played today
-            currentStats.lastCompletedDate == yesterdayStr -> currentStats.currentStreak + 1 // Streak continued
-            currentStats.lastCompletedDate.isEmpty() -> 1 // First time
-            else -> 1 // Streak reset
+            currentStats.lastCompletedDate == todayStr -> currentStats.currentStreak
+            currentStats.lastCompletedDate == yesterdayStr -> currentStats.currentStreak + 1
+            currentStats.lastCompletedDate.isEmpty() -> 1
+            else -> 1
         }
 
         val updatedMaxStreak = maxOf(currentStats.maxStreak, newStreak)
@@ -150,7 +194,6 @@ class ForensicRepository(private val database: AppDatabase) {
         )
 
         dao.insertOrUpdateUserStats(updatedStats)
-
         return attemptId
     }
 

@@ -19,7 +19,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,6 +31,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -56,10 +59,11 @@ import com.example.data.model.QuizMode
 @Composable
 fun TopicQuizzesScreen(
     onStartTopicQuiz: (ForensicCategory, Int, QuizMode) -> Unit,
+    onOpenUpdateQuestions: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedCategoryForSheet by remember { mutableStateOf<ForensicCategory?>(null) }
-    var selectedQuestionCount by remember { mutableIntStateOf(5) }
+    var selectedQuestionCount by remember { mutableIntStateOf(10) }
     var selectedMode by remember { mutableStateOf(QuizMode.PRACTICE) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -99,141 +103,184 @@ fun TopicQuizzesScreen(
                         Text(
                             text = category.title,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "$totalQuestionsInCategory questions available",
-                            fontSize = 13.sp,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
 
-                // Question Count Selector
-                Text(
-                    text = "Select Number of Questions",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    listOf(5, 8, totalQuestionsInCategory).distinct().forEach { count ->
-                        val isSelected = selectedQuestionCount == count
+                // Question Count Selection
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        text = "NUMBER OF QUESTIONS",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.5.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        listOf(5, 10, 20, 26).forEach { count ->
+                            val isSelected = selectedQuestionCount == count
+                            Surface(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .clickable { selectedQuestionCount = count }
+                                    .testTag("count_select_$count"),
+                                shape = RoundedCornerShape(10.dp),
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                            ) {
+                                Box(
+                                    modifier = Modifier.padding(vertical = 12.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = if (count == 26) "All 26" else "$count Qs",
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        fontSize = 13.sp,
+                                        color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Mode Selection
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        text = "QUIZ MODE",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.5.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        // Practice Mode
                         Surface(
                             modifier = Modifier
                                 .weight(1f)
                                 .clip(RoundedCornerShape(10.dp))
-                                .clickable { selectedQuestionCount = count },
-                            color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                            border = BorderStroke(
-                                1.dp,
-                                if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-                            )
+                                .clickable { selectedMode = QuizMode.PRACTICE }
+                                .testTag("mode_practice"),
+                            shape = RoundedCornerShape(10.dp),
+                            color = if (selectedMode == QuizMode.PRACTICE)
+                                MaterialTheme.colorScheme.primaryContainer
+                            else
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            border = if (selectedMode == QuizMode.PRACTICE)
+                                BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary)
+                            else
+                                BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                         ) {
-                            Text(
-                                text = if (count == totalQuestionsInCategory) "All ($count)" else "$count Qs",
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                fontSize = 13.sp,
-                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                            Column(
+                                modifier = Modifier.padding(12.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    RadioButton(
+                                        selected = selectedMode == QuizMode.PRACTICE,
+                                        onClick = { selectedMode = QuizMode.PRACTICE },
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Text(
+                                        text = "Tutor Mode",
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 13.sp
+                                    )
+                                }
+                                Text(
+                                    text = "Instant rationale & clinical pearls",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+
+                        // Exam Mode
+                        Surface(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable { selectedMode = QuizMode.EXAM }
+                                .testTag("mode_exam"),
+                            shape = RoundedCornerShape(10.dp),
+                            color = if (selectedMode == QuizMode.EXAM)
+                                MaterialTheme.colorScheme.primaryContainer
+                            else
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            border = if (selectedMode == QuizMode.EXAM)
+                                BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary)
+                            else
+                                BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(12.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    RadioButton(
+                                        selected = selectedMode == QuizMode.EXAM,
+                                        onClick = { selectedMode = QuizMode.EXAM },
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Text(
+                                        text = "Exam Mode",
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 13.sp
+                                    )
+                                }
+                                Text(
+                                    text = "Submit all answers at end",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
 
-                // Practice vs Exam Mode Toggle
-                Text(
-                    text = "Quiz Feedback Mode",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    // Practice
-                    Surface(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .clickable { selectedMode = QuizMode.PRACTICE },
-                        color = if (selectedMode == QuizMode.PRACTICE) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                        border = BorderStroke(
-                            1.dp,
-                            if (selectedMode == QuizMode.PRACTICE) MaterialTheme.colorScheme.primary else Color.Transparent
-                        )
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(10.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Practice Mode",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 13.sp,
-                                color = if (selectedMode == QuizMode.PRACTICE) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
-                            )
-                            Text(
-                                text = "Instant explanations",
-                                fontSize = 11.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    // Exam
-                    Surface(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .clickable { selectedMode = QuizMode.EXAM },
-                        color = if (selectedMode == QuizMode.EXAM) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                        border = BorderStroke(
-                            1.dp,
-                            if (selectedMode == QuizMode.EXAM) MaterialTheme.colorScheme.primary else Color.Transparent
-                        )
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(10.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Exam Mode",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 13.sp,
-                                color = if (selectedMode == QuizMode.EXAM) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
-                            )
-                            Text(
-                                text = "Score at end",
-                                fontSize = 11.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Start Button
                 Button(
                     onClick = {
-                        val countToUse = selectedQuestionCount.coerceAtMost(totalQuestionsInCategory)
+                        val cat = category
                         selectedCategoryForSheet = null
-                        onStartTopicQuiz(category, countToUse, selectedMode)
+                        onStartTopicQuiz(cat, selectedQuestionCount, selectedMode)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .testTag("start_topic_sheet_btn"),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        .testTag("start_topic_quiz_btn"),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Start Topic Quiz", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Begin ${category.shortName} Quiz",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -251,7 +298,7 @@ fun TopicQuizzesScreen(
     ) {
         item {
             Column(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
@@ -261,10 +308,69 @@ fun TopicQuizzesScreen(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Select any forensic medicine discipline for focused practice",
+                    text = "26+ high-yield questions for each forensic medicine specialty",
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+        }
+
+        // Add / Update Questions Banner
+        item {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .clickable { onOpenUpdateQuestions() }
+                    .testTag("update_questions_banner"),
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                ),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(MaterialTheme.colorScheme.primary),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.UploadFile,
+                            contentDescription = "Upload",
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Add / Update Questions",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "Upload docs, JSON, CSV or paste your own questions",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    Icon(
+                        imageVector = Icons.Outlined.ChevronRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
 
@@ -277,7 +383,7 @@ fun TopicQuizzesScreen(
                     .clip(RoundedCornerShape(16.dp))
                     .clickable {
                         selectedCategoryForSheet = category
-                        selectedQuestionCount = minOf(5, count)
+                        selectedQuestionCount = minOf(10, count)
                     }
                     .testTag("topic_card_${category.name}"),
                 shape = RoundedCornerShape(16.dp),
@@ -322,7 +428,7 @@ fun TopicQuizzesScreen(
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "$count High-Yield Questions",
+                            text = "$count High-Yield Questions (26 Base)",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = category.accentColor

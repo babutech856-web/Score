@@ -63,4 +63,23 @@ interface QuizDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateUserStats(stats: UserStatsEntity)
+
+    // Custom / Imported Questions
+    @Query("SELECT * FROM custom_questions ORDER BY importedAt DESC")
+    fun getAllCustomQuestions(): Flow<List<CustomQuestionEntity>>
+
+    @Query("SELECT * FROM custom_questions ORDER BY importedAt DESC")
+    suspend fun getAllCustomQuestionsOnce(): List<CustomQuestionEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCustomQuestions(questions: List<CustomQuestionEntity>)
+
+    @Query("DELETE FROM custom_questions WHERE id = :questionId")
+    suspend fun deleteCustomQuestion(questionId: String)
+
+    @Query("DELETE FROM custom_questions")
+    suspend fun deleteAllCustomQuestions()
+
+    @Query("SELECT COUNT(*) FROM custom_questions")
+    fun getCustomQuestionCount(): Flow<Int>
 }

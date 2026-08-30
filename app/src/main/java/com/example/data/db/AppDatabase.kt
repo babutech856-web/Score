@@ -10,9 +10,10 @@ import androidx.room.RoomDatabase
         QuizAttemptEntity::class,
         BookmarkedQuestionEntity::class,
         QuestionAttemptEntity::class,
-        UserStatsEntity::class
+        UserStatsEntity::class,
+        CustomQuestionEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

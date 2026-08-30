@@ -7,6 +7,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -52,6 +53,7 @@ import com.example.ui.screens.FlashcardsScreen
 import com.example.ui.screens.QuizPlayScreen
 import com.example.ui.screens.QuizSummaryScreen
 import com.example.ui.screens.TopicQuizzesScreen
+import com.example.ui.screens.UpdateQuestionsScreen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.viewmodel.ForensicQuizViewModel
 
@@ -112,6 +114,7 @@ fun ForensicQuizApp(viewModel: ForensicQuizViewModel) {
     val incorrectQuestions by viewModel.incorrectQuestions.collectAsStateWithLifecycle()
 
     var selectedTab by remember { mutableStateOf(MainNavigationTab.DAILY) }
+    var isUpdateQuestionsOpen by remember { mutableStateOf(false) }
 
     when {
         // Quiz is in active playing mode
@@ -151,6 +154,18 @@ fun ForensicQuizApp(viewModel: ForensicQuizViewModel) {
                     }
                 },
                 onBackHome = { viewModel.exitQuiz() }
+            )
+        }
+
+        // Add / Update Questions Screen
+        isUpdateQuestionsOpen -> {
+            BackHandler {
+                isUpdateQuestionsOpen = false
+            }
+            UpdateQuestionsScreen(
+                viewModel = viewModel,
+                onNavigateBack = { isUpdateQuestionsOpen = false },
+                onStartQuiz = { isUpdateQuestionsOpen = false }
             )
         }
 
@@ -201,17 +216,19 @@ fun ForensicQuizApp(viewModel: ForensicQuizViewModel) {
                                 onStartVignettes = { viewModel.startVignetteQuiz(QuizMode.PRACTICE) },
                                 onStartMistakes = { viewModel.startMistakesQuiz(QuizMode.PRACTICE) },
                                 onSelectCategory = { category ->
-                                    viewModel.startTopicQuiz(category, 5, QuizMode.PRACTICE)
+                                    viewModel.startTopicQuiz(category, 10, QuizMode.PRACTICE)
                                 },
                                 onOpenFlashcards = { selectedTab = MainNavigationTab.PEARLS },
-                                onOpenBookmarks = { selectedTab = MainNavigationTab.VAULT }
+                                onOpenBookmarks = { selectedTab = MainNavigationTab.VAULT },
+                                onOpenUpdateQuestions = { isUpdateQuestionsOpen = true }
                             )
                         }
                         MainNavigationTab.TOPICS -> {
                             TopicQuizzesScreen(
                                 onStartTopicQuiz = { category, count, mode ->
                                     viewModel.startTopicQuiz(category, count, mode)
-                                }
+                                },
+                                onOpenUpdateQuestions = { isUpdateQuestionsOpen = true }
                             )
                         }
                         MainNavigationTab.PEARLS -> {
